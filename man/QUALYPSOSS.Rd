@@ -4,9 +4,17 @@
 \alias{QUALYPSOSS}
 \title{QUALYPSOSS}
 \usage{
-QUALYPSOSS(ClimateProjections, scenAvail, vecYears = NULL,
-  predCont = NULL, predContUnique = NULL, iCpredCont = NULL,
-  iCpredContUnique = NULL, listOption = NULL, RK = NULL)
+QUALYPSOSS(
+  ClimateProjections,
+  scenAvail,
+  vecYears = NULL,
+  predCont = NULL,
+  predContUnique = NULL,
+  iCpredCont = NULL,
+  iCpredContUnique = NULL,
+  listOption = NULL,
+  RK = NULL
+)
 }
 \arguments{
 \item{ClimateProjections}{matrix \code{nT} x \code{nS} of climate projections where \code{nT} is the number of values for the continuous predictor
@@ -26,20 +34,22 @@ QUALYPSOSS(ClimateProjections, scenAvail, vecYears = NULL,
 
 \item{listOption}{(optional) list of options
 \itemize{
+  \item \strong{spar}: if \code{uniqueFit} is true, smoothing parameter passed to the function \link[stats]{smooth.spline}.
   \item \strong{lambdaClimateResponse}: smoothing parameter > 0 for the extraction of the climate response.
   \item \strong{lambdaHyperParANOVA}: hyperparameter \eqn{b} for the \eqn{\lambda} parameter related to each predictor \eqn{g}.
   \item \strong{typeChangeVariable}: type of change variable: "abs" (absolute, value by default) or "rel" (relative).
   \item \strong{nBurn}: number of burn-in samples (default: 1000). If \code{nBurn} is too small, the convergence of MCMC chains might not be obtained.
   \item \strong{nKeep}: number of kept samples (default: 2000). If \code{nKeep} is too small, MCMC samples might not be represent correctly the posterior
   distributions of inferred parameters.
-  \item \strong{nCluster}: number of clusters used for the parallelization (default: 1). When \code{nCluster} is greater than one, parallelization is used to
-  apply \code{QUALYPSOSS} over multiple time steps or grid points simultaneously.
   \item \strong{quantileCompress}: vector of probabilities (in [0,1]) for which we compute the quantiles from the posterior distributions
    \code{quantileCompress = c(0.005,0.025,0.05,0.5,0.95,0.975,0.995)} by default.
   \item \strong{uniqueFit}: logical, if \code{FALSE} (default), climate responses are fitted using Bayesian smoothing splines, otherwise,if \code{TRUE},
    a unique cubic smoothing spline is fitted for each run, using the function \link[stats]{smooth.spline}.
   \item \strong{returnMCMC}: logical, if \code{TRUE}, the list \code{MCMC} contains MCMC chains.
   \item \strong{returnOnlyCR}: logical, if \code{TRUE} (default), only Climate Responses are fitted and returned.
+  \item \strong{type.temporal.dep}: "iid" for independent errors or "AR1" (default) for autocorrelated errors.
+  \item \strong{type.hetero}: "constant" for homoscedastic errors or "linear" (default) for heteroscedastic errors.
+  
 }}
 
 \item{RK}{Reproducing kernels: list}
@@ -48,30 +58,29 @@ QUALYPSOSS(ClimateProjections, scenAvail, vecYears = NULL,
 list with the following fields:
 
 \itemize{
-  \item \strong{MEAN}: list containing the mean estimate of different quantities: \code{ResidualVariability} (residual variability),
-  \code{InternalVariability} (internal variability), \code{lambda} (smoothing parameters), \code{grandMean} (grand mean for all time
-  steps), \code{effect} (list with one item per discrete predictor \code{i}, containing matrices \code{nT} x \code{nEffi}, 
-  where \code{nEffi} is the number of possible values for the discrete predictor \code{i}).
-  \item \strong{QUANT}: list containing quantiles of different estimated quantities, listed in \strong{MEAN}.
-  \item \strong{DECOMPVAR}: list with the contribution of all components to the total uncertainty, provided in \code{TotalVar} for 
-  all time steps. In addition, for each discrete predictor, \code{ContribEffect} provides the relative contribution of possible
-  discrete value (e.g. the contribution of one RCM to the uncertainty due to RCMs).
-  \item \strong{MCMC.list}: list containing the MCMC chains (not returned by default).
+  \item \strong{POINT}: list containing the mean estimate of different quantities: \code{RESIDUALVAR} 
+  (residual variability), \code{INTERNALVAR} (internal variability), \code{GRANDMEAN} (grand mean for all time
+  steps), \code{MAINEFFECT} (list with one item per discrete predictor \code{i}, containing matrices \code{nT} x 
+  \code{nEffi}, where \code{nEffi} is the number of possible values for the discrete predictor \code{i}).
+  \code{EFFECTVAR}, uncertainty related to the different main effect, \code{TOTVAR} Total variability,
+  \code{DECOMPVAR}, decomposition of the total variability (percentages) for the different components,
+  \code{CONTRIB_EACH_EFFECT}, contribution of each individual effects (percentages) to the corr. effect uncertainty.
+  \item \strong{BAYES}: list containing quantiles of different estimated quantities, listed in \strong{POINT}.
+  \item \strong{MCMC}: list containing the MCMC chains (not returned by default).
   \item \strong{climateResponse}: list containing different objects related to the extraction of the climate response.
   phiStar (\eqn{\phi^*}) is an array \code{nQ} x \code{nS} x \code{nP} containing climate change responses, where \code{nQ} is the
   number of returned quantiles, \code{nS} is the number of scenarios and \code{nP} is the length of \code{predContUnique} (e.g. number
   of future years). 
   Similarly, etaStar (\eqn{\eta^*}) contains the deviation from the climate change response. 
   phi (\eqn{\phi}) contains the climate responses and eta (\eqn{\eta}) contains the deviations from the climate responses.
-  \item \strong{listCR}: list containing objects created during the extraction of the climate responses (to be used as an 
-  argument in \code{\link{QUALYPSOSSlight}})
+  \item \strong{listCR}: list containing objects created during the extraction of the climate responses
   \item \strong{ClimateProjections}: argument of the call to the function, for records.
   \item \strong{predCont}: (optional) argument of the call to the function, for records.
   \item \strong{predContUnique}:  (optional) argument of the call to the function, for records.
   \item \strong{predDiscreteUnique}: list of possible values taken by the discrete predictors given in \code{scenAvail}.
   \item \strong{listOption}: list of options
   \item \strong{listScenario}: list of scenario characteristics (obtained from \code{\link{QUALYPSOSS.process.scenario}})
-  \item \strong{RK}: list containing the reproducing kernels (to be used as an argument in \code{\link{QUALYPSOSSlight}})
+  \item \strong{RK}: list containing the reproducing kernels
 }
 }
 \description{
@@ -105,7 +114,7 @@ ClimateProjections = cbind(scenGCM1RCM1,scenGCM1RCM2,scenGCM2RCM1)
 # of the GCM "GCM2" and RCM "RCM1".
 scenAvail = data.frame(GCM=c('GCM1','GCM1','GCM2'),RCM=c('RCM1','RCM2','RCM1'))
 
-listOption = list(nBurn=20,nKeep=30)
+listOption = list(nBurn=20,nKeep=30,type.temporal.dep="iid",type.hetero="constant")
 QUALYPSOSSOUT = QUALYPSOSS(ClimateProjections=ClimateProjections,scenAvail=scenAvail,
 listOption=listOption)
 
@@ -126,11 +135,6 @@ plotQUALYPSOSSeffect(QUALYPSOSSOUT, iEff = 2)
 
 # plotQUALYPSOSSgrandmean draws the estimated grand mean, as a function of the continuous predictor.
 plotQUALYPSOSSgrandmean(QUALYPSOSSOUT)
-
-# plotQUALYPSOSSTotalVarianceByScenario draws the total uncertainty and the mean effect, 
-# for one discrete predictor, usually a RCP scenario (e.g. it provides an illustration of the
-# future evolution and associated uncertainties for one RCP scenario).
-plotQUALYPSOSSTotalVarianceByScenario(QUALYPSOSSOUT,nameScenario = "GCM1",iEff = 1)
 
 # plotQUALYPSOSSTotalVarianceDecomposition draws the decomposition of the total variance responses,
 # as a function of the continuous predictor.

@@ -4,9 +4,14 @@
 \alias{plotQUALYPSOSSClimateChangeResponse}
 \title{plotQUALYPSOSSClimateChangeResponse}
 \usage{
-plotQUALYPSOSSClimateChangeResponse(QUALYPSOSSOUT, lim = NULL,
-  col = NULL, xlab = "Years", ylab = expression(phi^{     star }),
-  ...)
+plotQUALYPSOSSClimateChangeResponse(
+  QUALYPSOSSOUT,
+  lim = NULL,
+  col = NULL,
+  xlab = "Years",
+  ylab = expression(phi^{     star }),
+  ...
+)
 }
 \arguments{
 \item{QUALYPSOSSOUT}{output from \code{\link{QUALYPSOSS}}}

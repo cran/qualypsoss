@@ -4,9 +4,16 @@
 \alias{plotQUALYPSOSSgrandmean}
 \title{plotQUALYPSOSSgrandmean}
 \usage{
-plotQUALYPSOSSgrandmean(QUALYPSOSSOUT, CIlevel = c(0.025, 0.975),
-  lim = NULL, col = "black", xlab = "Continuous predictor",
-  ylab = "Grand mean", addLegend = T, ...)
+plotQUALYPSOSSgrandmean(
+  QUALYPSOSSOUT,
+  CIlevel = c(0.025, 0.975),
+  lim = NULL,
+  col = "black",
+  xlab = "Continuous predictor",
+  ylab = "Grand mean",
+  addLegend = T,
+  ...
+)
 }
 \arguments{
 \item{QUALYPSOSSOUT}{output from \code{\link{QUALYPSOSS}}}

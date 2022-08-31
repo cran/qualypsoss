@@ -4,17 +4,22 @@
 \alias{plotQUALYPSOSSeffect}
 \title{plotQUALYPSOSSeffect}
 \usage{
-plotQUALYPSOSSeffect(QUALYPSOSSOUT, iEff, includeMean = FALSE,
-  CIlevel = c(0.025, 0.975), lim = NULL, col = 1:20,
-  xlab = "Continuous predictor", ylab = "Effect", addLegend = TRUE,
-  ...)
+plotQUALYPSOSSeffect(
+  QUALYPSOSSOUT,
+  iEff,
+  CIlevel = c(0.025, 0.975),
+  lim = NULL,
+  col = 1:20,
+  xlab = "Continuous predictor",
+  ylab = "Effect",
+  addLegend = TRUE,
+  ...
+)
 }
 \arguments{
 \item{QUALYPSOSSOUT}{output from \code{\link{QUALYPSOSS}}}
 
 \item{iEff}{index of the main effect to be plotted in \code{QUALYPSOSSOUT$listScenario$predDiscreteUnique}}
-
-\item{includeMean}{if TRUE, the grand mean is added to the main effect in the plot}
 
 \item{CIlevel}{probabilities for the credible intervals, default is equal to \code{c(0.025,0.975)}}
 

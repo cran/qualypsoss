@@ -4,10 +4,15 @@
 \alias{plotQUALYPSOSSTotalVarianceDecomposition}
 \title{plotQUALYPSOSSTotalVarianceDecomposition}
 \usage{
-plotQUALYPSOSSTotalVarianceDecomposition(QUALYPSOSSOUT, col = c("orange",
-  "yellow", "cadetblue1", "blue1", "darkgreen", "darkgoldenrod4",
-  "darkorchid1"), xlab = "Continuous predictor",
-  ylab = "\% Total Variance", addLegend = TRUE, ...)
+plotQUALYPSOSSTotalVarianceDecomposition(
+  QUALYPSOSSOUT,
+  col = c("orange", "yellow", "cadetblue1", "blue1", "darkgreen", "darkgoldenrod4",
+    "darkorchid1"),
+  xlab = "Continuous predictor",
+  ylab = "\% Total Variance",
+  addLegend = TRUE,
+  ...
+)
 }
 \arguments{
 \item{QUALYPSOSSOUT}{output from \code{\link{QUALYPSOSS}}}

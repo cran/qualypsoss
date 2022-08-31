@@ -4,8 +4,14 @@
 \alias{plotQUALYPSOSSClimateResponse}
 \title{plotQUALYPSOSSClimateResponse}
 \usage{
-plotQUALYPSOSSClimateResponse(QUALYPSOSSOUT, lim = NULL, col = NULL,
-  xlab = "Years", ylab = expression(phi), ...)
+plotQUALYPSOSSClimateResponse(
+  QUALYPSOSSOUT,
+  lim = NULL,
+  col = NULL,
+  xlab = "Years",
+  ylab = expression(phi),
+  ...
+)
 }
 \arguments{
 \item{QUALYPSOSSOUT}{output from \code{\link{QUALYPSOSS}}}

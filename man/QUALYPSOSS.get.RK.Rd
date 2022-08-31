@@ -4,14 +4,12 @@
 \alias{QUALYPSOSS.get.RK}
 \title{QUALYPSOSS.get.RK}
 \usage{
-QUALYPSOSS.get.RK(X, nK, nCluster)
+QUALYPSOSS.get.RK(X, nK)
 }
 \arguments{
 \item{X}{matrix of predictors}
 
 \item{nK}{number of discrete predictors}
-
-\item{nCluster}{number of clusters used to compute the reproducing kernels}
 }
 \value{
 strong{RK}: list containing the reproducing kernels, obtained using spectral decomposition
